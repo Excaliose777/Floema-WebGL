@@ -6,6 +6,7 @@ import Home from "pages/Home";
 class App {
   constructor() {
     console.log("App")
+    this.createPages();
   }
 
   createPages() {
@@ -13,7 +14,7 @@ class App {
       about: new About(),
       collections: new Collections(),
       detail: new Detail(),
-      home: new Home(),
+      home: new Home()
     };
   }
 }
