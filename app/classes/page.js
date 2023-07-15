@@ -10,9 +10,14 @@ export default class Page {
   }
 
   create() {
+
     this.element = document.querySelector(this.selector);
+    this.elements = {}
+
+    console.log('Create', this.id, this.element)
 
     each(this.selectorChildren, (entry, key) => {
+      console.log(entry)
       if (
         entry instanceof window.HTMLElement ||
         entry instanceof window.NodeList ||
