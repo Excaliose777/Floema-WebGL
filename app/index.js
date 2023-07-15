@@ -28,26 +28,49 @@ class App {
 
     this.page = this.pages[this.template];
 
-    console.log(this.page)
+    // console.log(this.page)
     this.page.create();
     this.page.show();
   }
 
-  onChange(url){
-    console.log(url)
+  async onChange(url){
+    // console.log(url)
+    const request = await window.fetch(url)
+
+    if(request.status === 200 ) {
+      const html = await request.text();
+      const div = document.createElement('div')
+
+      div.innerHTML = html
+
+      const divContent = div.querySelector('.content')
+      this.content.setAttribute('data-template', divContent.getAttribute('data-template'))
+      this.content.innerHTML = divContent.innerHTML
+
+      console.log(html)
+    } else {
+      console.log('Error')
+    }
+
+    console.log(request)
   }
+
+
   addLinkListeners () {
     const links = document.querySelectorAll('a')
 
-    each(links, (link) => {
-      link.onClick = (event) => {
+    each(links, link => {
+      link.onclick = event => {
         event.preventDefault()
 
-        const { href } = link
+        const{ href } = link
+        
+
         this.onChange(href)
-        console.log(event, href)
+
+        // console.log(event, href)
       }
-    }) 
+    })
   }
 }
 

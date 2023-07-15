@@ -1,4 +1,5 @@
 import each from "lodash/each";
+import { gsap } from "gsap";
 
 export default class Page {
   constructor({ element, elements, id }) {
@@ -10,14 +11,14 @@ export default class Page {
   }
 
   create() {
-
     this.element = document.querySelector(this.selector);
-    this.elements = {}
+    this.elements = {};
 
-    console.log('Create', this.id, this.element)
+    // console.log('Create', this.id, this.element)
 
     each(this.selectorChildren, (entry, key) => {
-      console.log(entry)
+      // console.log(entry, key)
+
       if (
         entry instanceof window.HTMLElement ||
         entry instanceof window.NodeList ||
@@ -33,10 +34,26 @@ export default class Page {
           this.elements[key] = document.querySelector(entry);
         }
       }
+
+      // console.log(this.elements, 'this.elements')
     });
   }
 
-  show() {}
+  show() {
+    return Promise((resolve) => {
+      gsap.from(this.element, {
+        autoAlpha: 0,
+        onComplete: resolve,
+      });
+    });
+  }
 
-  hide() {}
+  hide() {
+    return Promise((resolve) => {
+      gsap.to(this.element, {
+        autoAlpha: 0,
+        onComplete: resolve,
+      });
+    });
+  }
 }
