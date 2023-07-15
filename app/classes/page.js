@@ -40,7 +40,7 @@ export default class Page {
   }
 
   show() {
-    return Promise((resolve) => {
+    return new Promise((resolve) => {
       gsap.from(this.element, {
         autoAlpha: 0,
         onComplete: resolve,
@@ -49,7 +49,7 @@ export default class Page {
   }
 
   hide() {
-    return Promise((resolve) => {
+    return new Promise((resolve) => {
       gsap.to(this.element, {
         autoAlpha: 0,
         onComplete: resolve,
