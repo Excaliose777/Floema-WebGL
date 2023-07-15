@@ -2,14 +2,23 @@ import About from "pages/About";
 import Collections from "pages/Collections";
 import Detail from "pages/Detail";
 import Home from "pages/Home";
+import Preloader from "components/Preloader";
+
 import each from 'lodash/each'
 
 class App {
   constructor() {
+    this.createPreloader()
+
     this.createContent();
     this.createPages();
     this.addLinkListeners();
 
+  }
+
+  createPreloader() {
+    this.preloader = new Preloader();
+    this.preloader.once('completed', this.onPreloaded)
   }
 
   createContent() {
@@ -28,9 +37,13 @@ class App {
 
     this.page = this.pages[this.template];
 
-    // console.log(this.page)
+    // console.log(this.page, this.template)
     this.page.create();
     this.page.show();
+  }
+
+  onPreloaded() {
+    console.log('preloaded')
   }
 
   async onChange(url){
@@ -53,12 +66,14 @@ class App {
       this.page.create()
       this.page.show()
 
-      console.log(html)
+      this.addLinkListeners();
+
+      // console.log(html)
     } else {
       console.log('Error')
     }
 
-    console.log(request)
+    // console.log(request)
   }
 
 
