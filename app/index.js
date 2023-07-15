@@ -9,11 +9,13 @@ class App {
     this.createContent();
     this.createPages();
     this.addLinkListeners();
+
   }
 
   createContent() {
     this.content = document.querySelector(".content");
     this.template = this.content.getAttribute("data-template");
+
   }
 
   createPages() {
@@ -25,6 +27,8 @@ class App {
     };
 
     this.page = this.pages[this.template];
+
+    console.log(this.page)
     this.page.create();
     this.page.show();
   }
