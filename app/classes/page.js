@@ -35,16 +35,22 @@ export default class Page {
         }
       }
 
-      console.log(this.elements, 'this.elements')
+      console.log(this.elements, "this.elements");
     });
   }
 
   show() {
     return new Promise((resolve) => {
-      gsap.from(this.element, {
-        autoAlpha: 0,
-        onComplete: resolve,
-      });
+      gsap.fromTo(
+        this.element,
+        {
+          autoAlpha: 1,
+        },
+        {
+          autoAlpha: 1,
+          onComplete: resolve,
+        }
+      );
     });
   }
 
