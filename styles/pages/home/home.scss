@@ -1,6 +1,6 @@
 .home {
   @extend %center;
-  @extend %cover;
+  @extend %page;
 
   overflow: hidden;
   background: $color-contessa;

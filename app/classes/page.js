@@ -62,4 +62,15 @@ export default class Page {
       });
     });
   }
+
+  onMouseWheel(event){
+    console.log(event)
+  }
+  addEventListeners(){
+    window.addEventListener('mousewheel', this.onMouseWheel)
+  }
+
+  removeEventListeners(){
+    window.removeEventListeners('mousewheel', this.onMouseWheel)
+  }
 }
