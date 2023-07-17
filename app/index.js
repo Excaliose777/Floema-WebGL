@@ -13,6 +13,8 @@ class App {
     this.createContent();
     this.createPages();
     this.addLinkListeners();
+
+    this.update()
   }
 
   createPreloader() {
@@ -72,6 +74,14 @@ class App {
     }
 
     // console.log(request)
+  }
+
+  update(){
+    if(this.page && this.page.update){
+      this.page.update()
+    }
+    
+    this.frame = window.requestAnimationFrame(this.update.bind(this))
   }
 
   addLinkListeners() {

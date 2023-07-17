@@ -1,5 +1,6 @@
 import each from "lodash/each";
 import { gsap } from "gsap";
+import Prefix from "prefix";
 
 export default class Page {
   constructor({ element, elements, id }) {
@@ -8,11 +9,27 @@ export default class Page {
       ...elements,
     };
     this.id = id;
+    this.transformPrefix = Prefix("transform");
+
+    this.scroll = {
+      current: 0,
+      target: 0,
+      last: 0,
+    };
+
+    this.onMouseWheelEvent = this.onMouseWheel.bind(this);
   }
 
   create() {
     this.element = document.querySelector(this.selector);
     this.elements = {};
+
+    this.scroll = {
+      current: 0,
+      target: 0,
+      last: 0,
+      limit: 1000,
+    };
 
     // console.log('Create', this.id, this.element)
 
@@ -41,7 +58,9 @@ export default class Page {
 
   show() {
     return new Promise((resolve) => {
-      gsap.fromTo(
+      this.animationIn = gsap.timeline();
+
+      this.animationIn.fromTo(
         this.element,
         {
           autoAlpha: 1,
@@ -51,26 +70,57 @@ export default class Page {
           onComplete: resolve,
         }
       );
+      this.animationIn.call((_) => {
+        this.addEventListeners();
+        resolve();
+      });
     });
   }
 
   hide() {
     return new Promise((resolve) => {
-      gsap.to(this.element, {
+      this.removeEventListeners();
+
+      this.animationOut = gsap.timeline();
+
+      this.animationOut.to(this.element, {
         autoAlpha: 0,
         onComplete: resolve,
       });
     });
   }
 
-  onMouseWheel(event){
-    console.log(event)
-  }
-  addEventListeners(){
-    window.addEventListener('mousewheel', this.onMouseWheel)
+  onMouseWheel(event) {
+    // console.log(event);
+    const { deltaY } = event;
+
+    this.scroll.target += deltaY;
   }
 
-  removeEventListeners(){
-    window.removeEventListeners('mousewheel', this.onMouseWheel)
+  update() {
+    this.scroll.current = gsap.utils.interpolate(
+      this.scroll.current,
+      this.scroll.target,
+      0.1
+    );
+    this.scroll.current = gsap.utils.clamp(
+      0,
+      this.scroll.limit,
+      this.scroll.current
+    );
+
+    if (this.elements.wrapper) {
+      this.elements.wrapper.style[
+        this.transformPrefix
+      ] = `translateY(-${this.scroll.current}px)`;
+    }
+  }
+
+  addEventListeners() {
+    window.addEventListener("mousewheel", this.onMouseWheelEvent);
+  }
+
+  removeEventListeners() {
+    window.removeEventListener("mousewheel", this.onMouseWheelEvent);
   }
 }
