@@ -3,18 +3,14 @@ import Animation from "classes/Animation";
 import { split, calculate } from "utils/text";
 import each from 'lodash/each'
 
-export default class Title extends Animation {
+export default class Label extends Animation {
   constructor({element, elements}) {
     super({
       element,
       elements,
     });
 
-    split({ element: this.element, append: true});
-
-    split({ element: this.element, append: true });
-
-    this.elementLinesSpans = this.element.querySelectorAll("span span")
+    this.elementLinesSpans = split({ element: this.element, append: true });
   }
 
   animateIn() {
@@ -30,9 +26,11 @@ export default class Title extends Animation {
       this.timelineIn.fromTo(
         line,
         {
+          autoAlpha:0,
           y:'100%'
         },
         {
+          autoAlpha:1,
           duration: 1.5 ,
           ease:'expo.out',
           delay: index * 0.2,

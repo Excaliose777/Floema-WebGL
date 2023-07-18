@@ -44,11 +44,13 @@ export default class Component extends EventEmitter {
         }
       }
 
-      console.log(this.elements, "this.elements");
+      // console.log(this.elements, "this.elements");
     });
   }
 
   addEventListeners() {}
 
   removeEventListeners() {}
+
+  onResize() {}
 }

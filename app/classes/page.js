@@ -3,7 +3,10 @@ import map from 'lodash/map'
 import { gsap } from "gsap";
 import Prefix from "prefix";
 import normalizeWheel from "normalize-wheel";
-import Title from "animations/Title";
+import Title from "../animations/Title";
+import Paragraph from "../animations/Paragraph";
+import Label from "../animations/Label";
+import Highlight from "../animations/Highlight";
 
 
 export default class Page {
@@ -11,9 +14,13 @@ export default class Page {
     this.selector = element;
     this.selectorChildren = {
       ...elements,
-      animationsTitles: '[data-animation="title"]'
+      animationsTitles: '[data-animation="title"]',
+      animationsHighlight: '[data-animation="highlight"]',
+      animationsParagraphs: '[data-animation="paragraph"]',
+      animationsLabel: '[data-animation="label"]'
     };
     this.id = id;
+
     this.transformPrefix = Prefix("transform");
 
     this.onMouseWheelEvent = this.onMouseWheel.bind(this);
@@ -51,18 +58,51 @@ export default class Page {
         }
       }
 
-      console.log(this.elements, "this.elements");
+      // console.log(this.elements, "this.elements");
     });
 
     this.createAnimations()
   }
 
   createAnimations(){
-    this.animationsTitles = map(this.elements.animationTitles, element => {
+    this.animations =[]
+
+
+    this.animationsTitles = map(this.elements.animationsTitles, (element) => {
       return new Title({
+        element,
+      });
+    });
+
+    this.animations.push(...this.animationsTitles);
+
+    //Paragraphs
+
+    this.animationsParagraphs = map(this.elements.animationsParagraphs, (element) => {
+      return new Paragraph({
         element
       })
     })
+
+    this.animations.push(...this.animationsParagraphs)
+
+    // Label
+
+    this.animationsLabel = map(this.elements.animationsLabel, (element) => {
+      return new Label({
+        element
+      })
+    })
+
+    //Highlight
+
+    this.animationsHighlight = map(this.elements.animationsHighlight, (element) => {
+      return new Highlight({
+        element
+      })
+    })
+
+    this.animations.push(...this.animationsHighlight)
   }
 
   show() {
@@ -109,6 +149,8 @@ export default class Page {
     if(this.elements.wrapper){
       this.scroll.limit = this.elements.wrapper.clientHeight - window.innerHeight
     }
+
+    each(this.animations, animation => animation.onResize())
   }
 
   update() {
