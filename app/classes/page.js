@@ -11,12 +11,6 @@ export default class Page {
     this.id = id;
     this.transformPrefix = Prefix("transform");
 
-    this.scroll = {
-      current: 0,
-      target: 0,
-      last: 0,
-    };
-
     this.onMouseWheelEvent = this.onMouseWheel.bind(this);
   }
 
@@ -28,7 +22,7 @@ export default class Page {
       current: 0,
       target: 0,
       last: 0,
-      limit: 1000,
+      limit: 0,
     };
 
     // console.log('Create', this.id, this.element)
@@ -63,11 +57,10 @@ export default class Page {
       this.animationIn.fromTo(
         this.element,
         {
-          autoAlpha: 1,
+          autoAlpha: 0,
         },
         {
           autoAlpha: 1,
-          onComplete: resolve,
         }
       );
       this.animationIn.call((_) => {
@@ -97,17 +90,28 @@ export default class Page {
     this.scroll.target += deltaY;
   }
 
+  onResize(){
+    if(this.elements.wrapper){
+      this.scroll.limit = this.elements.wrapper.clientHeight - window.innerHeight
+    }
+  }
+
   update() {
+    this.scroll.target = gsap.utils.clamp(
+      0,
+      this.scroll.limit,
+      this.scroll.target
+    );
+
     this.scroll.current = gsap.utils.interpolate(
       this.scroll.current,
       this.scroll.target,
       0.1
     );
-    this.scroll.current = gsap.utils.clamp(
-      0,
-      this.scroll.limit,
-      this.scroll.current
-    );
+
+    if(this.scroll.current < 0.01){
+      this.scroll.current = 0
+    }
 
     if (this.elements.wrapper) {
       this.elements.wrapper.style[

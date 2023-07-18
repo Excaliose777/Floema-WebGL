@@ -12,6 +12,8 @@ class App {
 
     this.createContent();
     this.createPages();
+
+    this.addEventListeners()
     this.addLinkListeners();
 
     this.update()
@@ -39,10 +41,14 @@ class App {
 
     // console.log(this.page, this.template)
     this.page.create();
+    
   }
 
   onPreloaded() {
     this.preloader.destroy();
+
+    this.onResize();
+    
     this.page.show();
   }
 
@@ -63,7 +69,9 @@ class App {
       this.content.innerHTML = divContent.innerHTML;
 
       this.page = this.pages[this.template];
+
       this.page.create();
+      this.onResize();
       this.page.show();
 
       this.addLinkListeners();
@@ -76,12 +84,23 @@ class App {
     // console.log(request)
   }
 
+  onResize(){
+    if(this.page && this.page.onResize){
+      this.page.onResize()
+    }
+  }
+
   update(){
     if(this.page && this.page.update){
       this.page.update()
     }
-    
+
     this.frame = window.requestAnimationFrame(this.update.bind(this))
+  }
+
+
+  addEventListeners() {
+    window.addEventListener('resize', this.onResize.bind(this))
   }
 
   addLinkListeners() {
