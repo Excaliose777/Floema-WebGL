@@ -10,6 +10,8 @@ html {
   position: fixed;
   @extend %cover;
   overflow: hidden;
+  background: $color-contessa;
+  color: $color-white;
 
   @include media("<phone") {
     font-size: calc(100vw / 750 * 10);
@@ -19,8 +21,6 @@ body {
   @extend %cover;
   @extend %description-16;
 
-  background: $color-contessa;
-  color: $color-white;
   font-family: $font-suisse-bp;
   position: fixed;
   

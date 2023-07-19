@@ -22,11 +22,14 @@ export default class Navigation extends Component {
         duration: 1.5
       })
       gsap.to(this.elements.items[0], {
-        autoAlpha:1
+        autoAlpha:1,
+        delay:0.75,
+        duration:0.75
       })
 
       gsap.to(this.elements.items[1], {
-        autoAlpha:0
+        autoAlpha:0,
+        duration:0.75
       })
 
     } else {
@@ -36,11 +39,14 @@ export default class Navigation extends Component {
       })
 
       gsap.to(this.elements.items[0], {
-        autoAlpha:0
+        autoAlpha:0,
+        duration:0.75
       })
 
       gsap.to(this.elements.items[1], {
-        autoAlpha:1
+        autoAlpha:1,
+        delay:0.75,
+        duration:0.75
       })
     }
   }
