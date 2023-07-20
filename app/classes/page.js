@@ -8,6 +8,7 @@ import Paragraph from "../animations/Paragraph";
 import Label from "../animations/Label";
 import Highlight from "../animations/Highlight";
 import { ColorsManager } from "classes/Colors";
+import AsyncLoad from "classes/AsyncLoad";
 
 
 export default class Page {
@@ -18,7 +19,9 @@ export default class Page {
       animationsTitles: '[data-animation="title"]',
       animationsHighlight: '[data-animation="highlight"]',
       animationsParagraphs: '[data-animation="paragraph"]',
-      animationsLabel: '[data-animation="label"]'
+      animationsLabel: '[data-animation="label"]',
+
+      preloaders: '[data-src]'
     };
     this.id = id;
 
@@ -63,6 +66,7 @@ export default class Page {
     });
 
     this.createAnimations()
+    this.createPreloader()
   }
 
   createAnimations(){
@@ -104,6 +108,12 @@ export default class Page {
     })
 
     this.animations.push(...this.animationsHighlight)
+  }
+
+  createPreloader() {
+    this.preloaders = map(this.elements.preloaders, element => {
+      return new AsyncLoad ({element})
+    })
   }
 
   show() {

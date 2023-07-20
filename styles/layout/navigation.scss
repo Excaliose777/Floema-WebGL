@@ -15,6 +15,11 @@
   top: 4rem;
   width: 12.8rem;
   height: 2rem;
+  transition: opacity 0.4s ease;
+  
+  &:hover{
+    opacity: 0.5;
+  }
 
   @include media('<phone'){
     left: 5rem;
