@@ -116,6 +116,8 @@ export default class Page {
     })
   }
 
+  // ANIMATIONS
+
   show() {
     return new Promise((resolve) => {
       ColorsManager.change({
@@ -143,7 +145,7 @@ export default class Page {
 
   hide() {
     return new Promise((resolve) => {
-      this.removeEventListeners();
+      this.destroy()
 
       this.animationOut = gsap.timeline();
 
@@ -153,6 +155,10 @@ export default class Page {
       });
     });
   }
+
+
+
+  // EVENTS
 
   onMouseWheel(event) {
     // console.log(event);
@@ -168,6 +174,8 @@ export default class Page {
 
     each(this.animations, animation => animation.onResize())
   }
+
+  //Loops
 
   update() {
     this.scroll.target = gsap.utils.clamp(
@@ -193,11 +201,19 @@ export default class Page {
     }
   }
 
+
+  //Listeners
+
   addEventListeners() {
     window.addEventListener("mousewheel", this.onMouseWheelEvent);
   }
 
   removeEventListeners() {
     window.removeEventListener("mousewheel", this.onMouseWheelEvent);
+  }
+
+  // DESTROY
+  destroy() {
+    this.removeEventListeners();
   }
 }
