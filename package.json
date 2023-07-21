@@ -48,6 +48,7 @@
     "node-fetch": "^2.6.12",
     "nodemon": "^2.0.22",
     "prismic-dom": "^2.2.7",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "ua-parser-js": "^1.0.35"
   }
 }
