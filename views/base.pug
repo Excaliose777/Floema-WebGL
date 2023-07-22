@@ -2,7 +2,7 @@ block variables
 
 doctype html 
 
-html(lang="en")
+html(class=isDesktop ? "desktop" : isTablet ? "tablet" : isIphone ? "phone" : "" lang="en")
   head
     meta(charset="UTF-8")
     meta(name="viewport" contact="width=device-width, initial-scale=1.0")
@@ -33,7 +33,7 @@ html(lang="en")
 
     link(href="main.css" rel="stylesheet")
 
-  body 
+  body
     include ./partials/preloader
     include ./partials/navigation
 
