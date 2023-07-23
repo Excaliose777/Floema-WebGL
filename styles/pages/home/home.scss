@@ -3,19 +3,18 @@
   @extend %page;
 
   overflow: hidden;
+  text-align: center;
   // background: $color-contessa;
   // color: $color-white;
-  text-align: center;
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     content: '';
     height: 24rem;
     width: 100%;
     z-index: 1;
     position: absolute;
     left: 0;
-    top: 0;
   }
 
   &::before {
