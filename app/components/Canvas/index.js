@@ -41,7 +41,7 @@ export default class Canvas {
   `,
       fragment: /* glsl */ `
       void main() {
-          gl_FragColor = vec4(1.0);
+          gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
       }
   `,
     });
@@ -63,6 +63,8 @@ export default class Canvas {
   }
 
   update(){
+    this.mesh.rotation.x += 0.01
+    this.mesh.rotation.y += 0.01
     this.renderer.render({
       camera: this.camera,
       scene: this.scene
