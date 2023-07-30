@@ -20,14 +20,10 @@ export default class {
   createTexture() {
     this.texture = new Texture(this.gl)
 
-    // console.log(this.element)
-
     this.image = new window.Image()
     this.image.crossOrigin = 'anonymous'
     this.image.src = this.element.getAttribute('data-src')
     this.image.onload = _ => (this.texture.image = this.image)
-
-    // console.log(this.image)
   }
 
   createProgram() {
@@ -60,7 +56,6 @@ export default class {
     this.updateX()
     this.updateY()
 
-    // console.log(this.bounds)
   }
 
     /**EVENTS */
@@ -78,11 +73,6 @@ export default class {
     this.mesh.scale.x = this.sizes.width * this.width
     this.mesh.scale.y = this.sizes.height * this.height
 
-    
-    
-
-
-    // console.log(this.width, this.height)
   }
 
   updateX(x = 0){
