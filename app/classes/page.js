@@ -27,7 +27,7 @@ export default class Page {
 
     this.transformPrefix = Prefix("transform");
 
-    this.onMouseWheelEvent = this.onMouseWheel.bind(this);
+    // this.onMouseWheelEvent = this.onMouseWheel.bind(this);
   }
 
   create() {
@@ -160,19 +160,16 @@ export default class Page {
 
   // EVENTS
 
-  onMouseWheel(event) {
-    // console.log(event);
-    const { pixelY } = normalizeWheel(event);
-
-    this.scroll.target += pixelY;
-  }
-
   onResize(){
     if(this.elements.wrapper){
       this.scroll.limit = this.elements.wrapper.clientHeight - window.innerHeight
     }
 
     each(this.animations, animation => animation.onResize())
+  }
+
+  onMouseWheel({pixelY}) {
+    this.scroll.target += pixelY;
   }
 
   //Loops
@@ -205,11 +202,11 @@ export default class Page {
   //Listeners
 
   addEventListeners() {
-    window.addEventListener("mousewheel", this.onMouseWheelEvent);
+    // window.addEventListener("mousewheel", this.onMouseWheelEvent);
   }
 
   removeEventListeners() {
-    window.removeEventListener("mousewheel", this.onMouseWheelEvent);
+    // window.removeEventListener("mousewheel", this.onMouseWheelEvent);
   }
 
   // DESTROY

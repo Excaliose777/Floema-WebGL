@@ -96,6 +96,11 @@ export default class {
 
   onTouchUp({ x, y }) {}
 
+  onWheel({pixelX, pixelY}){
+    this.x.target += pixelX
+    this.y.target += pixelY
+  }
+
   /**
    * UPDATE
    */
