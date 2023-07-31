@@ -68,17 +68,20 @@ export default class {
    */
 
   onResize(event) {
-    map(this.medias, (media) => media.onResize(event));
 
     this.galleryBounds = this.galleryElement.getBoundingClientRect();
-
+    
     this.sizes = event.sizes;
-
+    
     this.gallerySizes = {
       height: this.galleryBounds.height / window.innerHeight * this.sizes.height,
       width: this.galleryBounds.width / window.innerWidth * this.sizes.width
-
     }
+
+    this.scroll.x = this.x.target = 0
+    this.scroll.y = this.y.target = 0
+    
+    map(this.medias, (media) => media.onResize(event, this.scroll));
   }
 
   onTouchDown({ x, y }) {
