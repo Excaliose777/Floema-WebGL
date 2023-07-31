@@ -137,12 +137,14 @@ export default class {
 
         if (x < -this.sizes.width / 2) {
           media.extra.x += this.gallerySizes.width;
+          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
         }
       } else if (this.x.direction === "right") {
         const x = media.mesh.position.x - scaleX
 
         if (x > this.sizes.width / 2) {
           media.extra.x -= this.gallerySizes.width;
+          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
         }
       }
 
@@ -153,12 +155,14 @@ export default class {
 
         if (y < -this.sizes.height / 2) {
           media.extra.y += this.gallerySizes.height;
+          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
         }
       } else if (this.y.direction === "bottom") {
         const y = media.mesh.position.y - scaleY
 
         if (y > this.sizes.height / 2) {
           media.extra.y -= this.gallerySizes.height;
+          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
         }
       }
 
