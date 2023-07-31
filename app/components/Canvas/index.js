@@ -1,5 +1,5 @@
 import { Camera, Renderer, Transform } from "ogl";
-import Home from './Home'
+import Home from './Home/Index'
 
 export default class Canvas {
   constructor() {
