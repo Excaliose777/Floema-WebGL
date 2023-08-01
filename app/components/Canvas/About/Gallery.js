@@ -6,6 +6,7 @@ import { Transform } from 'ogl'
 export default class Gallery {
   constructor({element, geometry, gl, scene, sizes, index}) {
     this.element = element
+    this.elementWrapper = element.querySelector('.about__gallery__wrapper')
     this.geometry = geometry
     this.gl = gl
     this.scene = scene
@@ -13,10 +14,11 @@ export default class Gallery {
     this.index = index
 
     this.group = new Transform()
+
     this.scroll = {
       current:0,
       target:0,
-      last:0,
+      start:0,
       lerp:0.1
     }
 
@@ -29,7 +31,7 @@ export default class Gallery {
   createMedias(){
     this.mediasElements = this.element.querySelectorAll('.about__gallery__media')
 
-    this.media = map(this.mediasElements, (element, index) => {
+    this.medias = map(this.mediasElements, (element, index) => {
       return new Media ({
         element,
         geometry: this.geometry,
@@ -44,7 +46,7 @@ export default class Gallery {
   
   onResize(event) {
 
-    this.bounds = this.element.getBoundingClientRect();
+    this.bounds = this.elementWrapper.getBoundingClientRect();
     
     this.sizes = event.sizes;
     
@@ -52,17 +54,17 @@ export default class Gallery {
     
     this.scroll.current = this.scroll.target = 0
 
-    map(this.medias, (media) => media.onResize(event, this.scroll));
+    map(this.medias, (media) => media.onResize(event, this.scroll.current));
   }
 
   onTouchDown({ x, y }) {
-    this.scroll.current = this.scroll;
+    this.scroll.start = this.scroll.current;
   }
 
   onTouchMove({ x, y }) {
     const distance = x.start - x.end;
 
-    this.scroll.target = this.scroll.current - distance;
+    this.scroll.target = this.scroll.start - distance;
   }
 
   onTouchUp({ x, y }) {}
@@ -92,19 +94,17 @@ export default class Gallery {
         const x = media.mesh.position.x + scaleX
 
         if (x < -this.sizes.width / 2) {
-          media.extra.x += this.gallerySizes.width;
-          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
+          media.extra += this.width;
         }
       } else if (this.direction === "right") {
         const x = media.mesh.position.x - scaleX
 
         if (x > this.sizes.width / 2) {
-          media.extra.x -= this.gallerySizes.width;
-          media.mesh.rotation.z = gsap.utils.random(-Math.PI * 0.03, Math.PI * 0.03)
+          media.extra -= this.width;
         }
       }
 
-      media.update(this.scroll);
+      media.update(this.scroll.current);
     });
   }
 }
