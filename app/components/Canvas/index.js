@@ -23,7 +23,7 @@ export default class Canvas {
     this.createScene();
 
     this.onResize()
-    this.onRouteUpdate(this.template)
+    this.onChangeEnd(this.template)
   }
 
   createRenderer() {
@@ -78,7 +78,17 @@ export default class Canvas {
    * EVENTS
    */
 
-  onRouteUpdate(template){
+  onChangeStart() {
+    if(this.about){
+      this.about.hide()
+    }
+
+    if(this.home){
+      this.home.hide()
+    }
+  }
+
+  onChangeEnd(template){
     if(template === 'home'){
       this.createHome()
     }else {

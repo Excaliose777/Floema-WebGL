@@ -15,6 +15,8 @@ export default class {
 
     this.group.setParent(scene);
 
+    this.show()
+
   }
 
   createGeometry() {
@@ -34,6 +36,18 @@ export default class {
         sizes: this.sizes,
       });
     });
+  }
+
+  /**
+   * ANimations
+   */
+
+  show(){
+    map(this.galleries, gallery => gallery.show())
+  }
+
+  hide(){
+    map(this.galleries, gallery => gallery.hide())
   }
 
   /**
@@ -65,5 +79,13 @@ export default class {
    */
   update() {
     map(this.galleries, gallery => gallery.update())
+  }
+
+  /**
+   * DESTROY
+   */
+
+  destroy(){
+    map(this.galleries, gallery => gallery.destroy())
   }
 }

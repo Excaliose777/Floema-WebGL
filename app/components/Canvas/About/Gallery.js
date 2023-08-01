@@ -43,6 +43,19 @@ export default class Gallery {
     })
   }
 
+    /**
+   * ANimations
+   */
+
+    show(){
+      map(this.medias, media => media.show())
+    }
+  
+    hide(){
+      map(this.medias, media => media.hide())
+    }
+  
+
   
   onResize(event) {
 
@@ -105,6 +118,16 @@ export default class Gallery {
       }
 
       media.update(this.scroll.current);
+
+      // media.mesh.position.y = Math.cos((media.mesh.position.x / this.width) * Math.PI) * 1 - 1
     });
+  }
+
+  /**
+   * DESTROY
+   */
+
+  destroy(){
+    this.scene.removeChild(this.group)
   }
 }

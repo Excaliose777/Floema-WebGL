@@ -17,11 +17,6 @@ export default class {
       ".home__gallery__media__image"
     );
 
-    this.createGeometry();
-    this.createGallery();
-
-    this.group.setParent(scene);
-
     this.x = {
       current: 0,
       target: 0,
@@ -43,6 +38,13 @@ export default class {
       x: 0,
       y: 0,
     };
+    
+    this.createGeometry();
+    this.createGallery();
+
+    this.group.setParent(this.scene);
+
+    this.show()
   }
 
   createGeometry() {
@@ -62,6 +64,18 @@ export default class {
     });
   }
 
+    /**
+   * ANimations
+   */
+
+    show(){
+      map(this.medias, media => media.show())
+    }
+  
+    hide(){
+      map(this.medias, media => media.hide())
+    }
+  
   /**
    *
    * EVENTS
@@ -183,6 +197,6 @@ export default class {
    */
 
   destroy(){
-    // this.group.setParent(null)
+    this.scene.removeChild(this.group)
   }
 }

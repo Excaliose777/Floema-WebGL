@@ -4,6 +4,7 @@
   position: relative;
   pointer-events: none;
   margin: 20rem 0;
+  visibility: hidden;
 
   &:first-child{
     margin-top: 0;
