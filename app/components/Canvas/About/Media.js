@@ -107,7 +107,6 @@ export default class {
 
     this.mesh.scale.x = this.sizes.width * this.width
     this.mesh.scale.y = this.sizes.height * this.height
-
   }
 
   updateX(x = 0){
@@ -127,6 +126,7 @@ export default class {
     if(!this.bounds) return
     
     this.updateRotation()
+    this.updateScale()
     this.updateX(scroll)
     this.updateY(0)
   }

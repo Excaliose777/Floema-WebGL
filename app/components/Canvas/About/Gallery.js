@@ -20,7 +20,7 @@ export default class Gallery {
       target:0,
       start:0,
       lerp:0.1,
-      velocity: 0
+      velocity: 1
     }
 
     this.createMedias()
@@ -86,18 +86,22 @@ export default class Gallery {
   /**
    * UPDATE
    */
-  update(y) {
+  update(scroll) {
     if (!this.bounds) return;
+
+    const distance = (scroll.current - scroll.target) * 0.1
+    const y = scroll.current / window.innerHeight
 
     if (this.scroll.current < this.scroll.target) {
       this.direction = "right";
-      this.scroll.velocity = -0.5
+      this.scroll.velocity = -1
     } else if (this.scroll.current > this.scroll.target) {
       this.direction = "left";
-      this.scroll.velocity = 0.5
+      this.scroll.velocity = 1
     }
 
     this.scroll.target -= this.scroll.velocity
+    this.scroll.target += distance
 
     this.scroll.current = gsap.utils.interpolate(
       this.scroll.current,
