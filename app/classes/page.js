@@ -1,13 +1,17 @@
 import each from "lodash/each";
 import map from 'lodash/map'
+
 import { gsap } from "gsap";
+
 import Prefix from "prefix";
-import normalizeWheel from "normalize-wheel";
+
 import Title from "../animations/Title";
 import Paragraph from "../animations/Paragraph";
 import Label from "../animations/Label";
 import Highlight from "../animations/Highlight";
+
 import { ColorsManager } from "classes/Colors";
+
 import AsyncLoad from "classes/AsyncLoad";
 
 
@@ -16,6 +20,7 @@ export default class Page {
     this.selector = element;
     this.selectorChildren = {
       ...elements,
+
       animationsTitles: '[data-animation="title"]',
       animationsHighlight: '[data-animation="highlight"]',
       animationsParagraphs: '[data-animation="paragraph"]',
@@ -27,7 +32,6 @@ export default class Page {
 
     this.transformPrefix = Prefix("transform");
 
-    // this.onMouseWheelEvent = this.onMouseWheel.bind(this);
   }
 
   create() {
@@ -41,11 +45,7 @@ export default class Page {
       limit: 0,
     };
 
-    // console.log('Create', this.id, this.element)
-
     each(this.selectorChildren, (entry, key) => {
-      // console.log(entry, key)
-
       if (
         entry instanceof window.HTMLElement ||
         entry instanceof window.NodeList ||
@@ -61,8 +61,6 @@ export default class Page {
           this.elements[key] = document.querySelector(entry);
         }
       }
-
-      // console.log(this.elements, "this.elements");
     });
 
     this.createAnimations()
@@ -168,7 +166,7 @@ export default class Page {
     each(this.animations, animation => animation.onResize())
   }
 
-  onMouseWheel({pixelY}) {
+  onWheel({pixelY}) {
     this.scroll.target += pixelY;
   }
 
