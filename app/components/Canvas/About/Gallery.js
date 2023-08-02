@@ -19,7 +19,8 @@ export default class Gallery {
       current:0,
       target:0,
       start:0,
-      lerp:0.1
+      lerp:0.1,
+      velocity: 0
     }
 
     this.createMedias()
@@ -85,14 +86,18 @@ export default class Gallery {
   /**
    * UPDATE
    */
-  update() {
+  update(y) {
     if (!this.bounds) return;
 
     if (this.scroll.current < this.scroll.target) {
       this.direction = "right";
+      this.scroll.velocity = -0.5
     } else if (this.scroll.current > this.scroll.target) {
       this.direction = "left";
+      this.scroll.velocity = 0.5
     }
+
+    this.scroll.target -= this.scroll.velocity
 
     this.scroll.current = gsap.utils.interpolate(
       this.scroll.current,
@@ -101,7 +106,7 @@ export default class Gallery {
     );
 
     map(this.medias, (media, index) => {
-      const scaleX = media.mesh.scale.x / 2;
+      const scaleX = media.mesh.scale.x / 2 + 0.25
 
       if (this.direction === "left") {
         const x = media.mesh.position.x + scaleX
@@ -118,9 +123,9 @@ export default class Gallery {
       }
 
       media.update(this.scroll.current);
-
-      // media.mesh.position.y = Math.cos((media.mesh.position.x / this.width) * Math.PI) * 1 - 1
     });
+
+    this.group.position.y = y * this.sizes.height
   }
 
   /**

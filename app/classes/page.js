@@ -201,13 +201,9 @@ export default class Page {
 
   //Listeners
 
-  addEventListeners() {
-    // window.addEventListener("mousewheel", this.onMouseWheelEvent);
-  }
+  addEventListeners() {}
 
-  removeEventListeners() {
-    // window.removeEventListener("mousewheel", this.onMouseWheelEvent);
-  }
+  removeEventListeners() {}
 
   // DESTROY
   destroy() {
