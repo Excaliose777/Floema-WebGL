@@ -42,6 +42,7 @@ button {
 }
 
 canvas{
+  pointer-events: none;
   position: relative;
 }
 

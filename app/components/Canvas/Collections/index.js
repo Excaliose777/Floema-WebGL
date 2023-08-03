@@ -12,8 +12,9 @@ export default class {
     this.group = new Transform();
 
     this.transformPrefix = Prefix('transform')
-
-    this.galleryElement = document.querySelector(".collections__gallery__wrapper");
+    
+    this.galleryElement = document.querySelector('.collections__gallery')
+    this.galleryWrapperElement = document.querySelector(".collections__gallery__wrapper");
     this.mediasElements = document.querySelectorAll(".collections__gallery__media");
     this.collectionsElements = document.querySelectorAll('.collections__article')
     this.collectionsElementsActive = 'collections__article--active'
@@ -73,7 +74,7 @@ export default class {
   onResize(event) {
 
     this.sizes = event.sizes;
-    this.bounds = this.galleryElement.getBoundingClientRect();
+    this.bounds = this.galleryWrapperElement.getBoundingClientRect();
 
     this.scroll.x = this.scroll.target = 0
     
@@ -131,6 +132,8 @@ export default class {
       this.scroll.target,
       this.scroll.lerp
     );
+
+    this.galleryElement.style[this.transformPrefix] = `translateX(${this.scroll.current}px)`
 
     if (this.scroll.last < this.scroll.current) {
       this.scroll.direction = "right";
