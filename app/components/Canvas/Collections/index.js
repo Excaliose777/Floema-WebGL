@@ -2,8 +2,7 @@ import map from "lodash/map";
 import Media from "./Media";
 import { Plane, Transform } from "ogl";
 import gsap from "gsap";
-
-import { lerp } from "utils/math";
+import Prefix from 'prefix'
 
 export default class {
   constructor({ gl, scene, sizes }) {
@@ -12,8 +11,14 @@ export default class {
     this.sizes = sizes;
     this.group = new Transform();
 
+    this.transformPrefix = Prefix('transform')
+
     this.galleryElement = document.querySelector(".collections__gallery__wrapper");
     this.mediasElements = document.querySelectorAll(".collections__gallery__media");
+    this.collectionsElements = document.querySelectorAll('.collections__article')
+    this.collectionsElementsActive = 'collections__article--active'
+
+    this.titlesElement = document.querySelector('.collections__titles')
 
     this.scroll = {
       current:0,
@@ -94,6 +99,26 @@ export default class {
   }
 
   /**
+   * Changed
+   */
+
+  onChange(index){
+    this.index = index
+
+    const selectedCollection = parseInt(this.mediasElements[this.index].getAttribute('data-index'))
+
+    map(this.collectionsElements, (element, elementIndex) => {
+      if(elementIndex === selectedCollection) {
+        element.classList.add(this.collectionsElementsActive)
+      } else{
+        element.classList.remove(this.collectionsElementsActive)
+      }
+    })
+
+    this.titlesElement.style[this.transformPrefix] = `translateY(-${25 * selectedCollection}%) translate(-50%, -50%) rotate(90deg)`
+  }
+
+  /**
    * UPDATE
    */
   update() {
@@ -116,9 +141,15 @@ export default class {
     this.scroll.last = this.scroll.current;
 
     map(this.medias, (media, index) => {
-
       media.update(this.scroll.current);
     });
+
+    const index = Math.floor(Math.abs(this.scroll.current / this.scroll.limit) * this.medias.length)
+
+    if(this.index !== index){
+      this.onChange(index)
+    }
+
   }
 
   /**
