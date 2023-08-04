@@ -2,18 +2,21 @@ import Component from "classes/Component";
 import { gsap } from "gsap";
 import each from "lodash/each";
 import { split } from "utils/text";
+import { Texture } from 'ogl'
 
 export default class Preloader extends Component {
-  constructor() {
+  constructor({ canvas }) {
     super({
       element: ".preloader",
       elements: {
         title: ".preloader__text",
         number: ".preloader__number",
         numberText: '.preloader__number__text',
-        images: document.querySelectorAll("img"),
       },
     });
+
+    this.canvas = canvas
+    window.TEXTURES = {}
 
     split({
       element: this.elements.title,
@@ -28,21 +31,36 @@ export default class Preloader extends Component {
     this.elements.titleSpans = this.elements.title.querySelectorAll('span span')
 
     this.length = 0;
-    // console.log(this.element, this.elements);
     this.createLoader();
+
+    
   }
 
   createLoader() {
-    each(this.elements.images, (element) => {
-      element.onload = (_) => this.onAssetLoaded(element);
-      element.src = element.getAttribute("data-src");
-    });
+    window.ASSETS.forEach(image => {
+
+      const media = new window.Image()
+
+      media.crossOrigin = 'anonymous'
+      media.src = image
+
+      const texture = new Texture(this.canvas.gl, {
+        generateMipmaps: false
+      })
+
+      media.onload = _ => {
+        texture.image = 
+        this.onAssetLoaded()
+      }
+
+      window.TEXTURES[image] = texture
+    })
   }
 
   onAssetLoaded(image) {
     this.length += 1;
 
-    const percent = this.length / this.elements.images.length;
+    const percent = this.length / window.ASSETS.length;
 
     this.elements.numberText.innerHTML = `${Math.round(percent * 100)}%`;
 
