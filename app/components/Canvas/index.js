@@ -136,10 +136,8 @@ export default class Canvas {
     }
 
     if(template === 'collections'){
-      // this.gl.canvas.style.zIndex = 1000
       this.createCollections()
     }else {
-      // this.gl.canvas.style.zIndex = ''
       this.destroyCollections()
     }
   }
