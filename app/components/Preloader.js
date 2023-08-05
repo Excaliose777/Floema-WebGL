@@ -37,19 +37,20 @@ export default class Preloader extends Component {
   }
 
   createLoader() {
-    window.ASSETS.forEach(image => {
+    each(window.ASSETS, (image) => {
+      const texture = new Texture(this.canvas.gl, {
+        generateMipmaps: false
+      })
 
       const media = new window.Image()
 
       media.crossOrigin = 'anonymous'
       media.src = image
 
-      const texture = new Texture(this.canvas.gl, {
-        generateMipmaps: false
-      })
 
       media.onload = _ => {
-        texture.image = 
+        texture.image = media
+        
         this.onAssetLoaded()
       }
 
