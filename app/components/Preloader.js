@@ -72,8 +72,10 @@ export default class Preloader extends Component {
 
   onLoaded() {
     return new Promise((resolve) => {
+      this.emit("completed");
+
       this.animateOut = gsap.timeline({
-        delay: 2,
+        delay: 1,
       });
 
       this.animateOut.to(this.elements.titleSpans, {
@@ -91,15 +93,13 @@ export default class Preloader extends Component {
       }, '-=1.4');
 
       this.animateOut.to(this.element, {
-        scaleY:0,
-        transformOrigin: '100% 100%',
-        duration: 1.5,
-        ease: "expo.out",
-      }, '-=1');
-
-      this.animateOut.call((_) => {
-        this.emit("completed");
+        autoAlpha:0,
+        duration: 1,
       });
+
+      this.animateOut.call(_ => {
+        this.destroy()
+      })
     });
   }
 
