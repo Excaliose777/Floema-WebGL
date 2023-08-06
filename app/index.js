@@ -77,7 +77,7 @@ class App {
     this.page.show();
   }
 
-  onPopState(){
+  onPopState(){   // Helps Change the route and url when page changes
     this.onChange({
       url:window.location.pathname, 
       push:false
@@ -94,7 +94,7 @@ class App {
       const html = await request.text();
       const div = document.createElement("div");
 
-      if(push){window.history.pushState({}, '', url)}
+      if(push){window.history.pushState({}, '', url)}  // Helps Change the route and url when page changes
 
       div.innerHTML = html;
 

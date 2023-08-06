@@ -48,7 +48,10 @@ export default class {
   }
 
   createGeometry() {
-    this.geometry = new Plane(this.gl);
+    this.geometry = new Plane(this.gl, { // IMPORTANT FOR DISTORTING PLANE
+      heightSegments: 20,
+      widthSegments: 20,
+    });
   }
 
   createGallery() {
@@ -124,6 +127,12 @@ export default class {
   update() {
     if (!this.galleryBounds) return;
 
+    
+    const a = this.x.target - this.x.current
+    const b = this.y.target - this.y.current
+
+    const speed = Math.sqrt(a * a + b * b) * 0.01
+
     this.x.current = gsap.utils.interpolate(
       this.x.current,
       this.x.target,
@@ -188,7 +197,7 @@ export default class {
         }
       }
 
-      media.update(this.scroll);
+      media.update(this.scroll, speed);
     });
   }
 
