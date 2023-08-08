@@ -2,6 +2,7 @@ import { Camera, Renderer, Transform } from "ogl";
 import Home from './Home/Index'
 import About from './About/Index'
 import Collections from "./Collections";
+import Transition from './Transition'
 
 export default class Canvas {
   constructor({template}) {
@@ -113,9 +114,6 @@ export default class Canvas {
       this.about.hide()
     }
 
-    this.isFromCollectionsToDetail = this.template === 'collections' && url.indexOf('detail') > -1
-    this.isFromDetailToCollections = this.template === 'detail' && url.indexOf('collections') > -1
-
     if(this.collections){
       this.collections.hide()
     }
@@ -123,15 +121,23 @@ export default class Canvas {
     if(this.home){
       this.home.hide()
     }
+
+    this.isFromCollectionsToDetail = this.template === 'collections' && url.indexOf('detail') > -1
+    this.isFromDetailToCollections = this.template === 'detail' && url.indexOf('collections') > -1
+
+    if(this.isFromCollectionsToDetail || this.isFromDetailToCollections){
+      this.transition = new Transition({
+        collections: this.collections,
+        gl: this.gl,
+        scene: this.scene,
+        sizes: this.sizes,
+        url
+      })
+    }
   }
 
   onChangeEnd(template){
-    if(template === 'home'){
-      this.createHome()
-    }else {
-      this.destroyHome()
-    }
-
+    
     if(template === 'about'){
       this.createAbout()
     }else {
@@ -143,6 +149,15 @@ export default class Canvas {
     }else {
       this.destroyCollections()
     }
+    
+    if(template === 'home'){
+      this.createHome()
+    }else {
+      this.destroyHome()
+    }
+
+    this.template = template
+
   }
 
   onResize() {
