@@ -64,13 +64,29 @@ export default class {
    * ANimations
    */
 
-    show(){
+    async show(){
       if(this.transition) {
-        this.transition.animate(this.medias[0].mesh, _ =>{
-          
+
+        const{src} = this.transition.mesh.program.uniforms.tMap.value.image
+        const texture = window.TEXTURES[src]
+        const media = this.media.find(media => media.texture === texture)
+
+        gsap.delayedCall(1, _ => {
+          this.scroll.current = this.scroll.target = this.scroll.last = this.scroll.start = -media.mesh.position.x
         })
+
+        this.transition.animate(this.medias[0].mesh, _ =>{
+          map(this.medias, media => {
+            if(media !== this.media) {
+              media.show()
+            }
+          })
+
+          this.media.opacity.multiplier = 1
+        })
+      } else {
+        map(this.medias, media => media.show())
       }
-      map(this.medias, media => media.show())
     }
   
     hide(){
@@ -128,6 +144,8 @@ export default class {
     })
 
     this.titlesElement.style[this.transformPrefix] = `translateY(-${25 * selectedCollection}%) translate(-50%, -50%) rotate(90deg)`
+
+    this.media = this.medias[index]
   }
 
   /**
@@ -154,7 +172,7 @@ export default class {
 
     this.scroll.last = this.scroll.current;
 
-    const index = Math.floor(Math.abs(this.scroll.current / this.scroll.limit) * this.medias.length)
+    const index = Math.floor(Math.abs((this.scroll.current - (this.medias[0].bounds.width / 2)) / this.scroll.limit) * (this.medias.length - 1))
 
     if(this.index !== index){
       this.onChange(index)
@@ -163,7 +181,7 @@ export default class {
     map(this.medias, (media, index) => {
       media.update(this.scroll.current, this.index);
 
-      media.mesh.position.y += Math.cos((media.mesh.position.x / this.sizes.width) * Math.PI * 0.1) * 40 - 40
+      // media.mesh.position.y += Math.cos((media.mesh.position.x / this.sizes.width) * Math.PI * 0.1) * 40 - 40
     });
 
   }

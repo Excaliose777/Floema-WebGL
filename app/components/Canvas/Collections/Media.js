@@ -131,16 +131,20 @@ export default class {
     this.mesh.position.y = (this.sizes.height / 2) - (this.mesh.scale.y / 2) - (this.y * this.sizes.height) + this.extra.y
   }
 
-  update(scroll){
+  update(scroll, index){
     // if(!this.bounds) return
-    
     this.updateX(scroll)
-    this.updateY()
 
-    // this.opacity.target = this.index === index ? 1 : 0.4
-    // this.opacity.current = gsap.utils.interpolate(this.opacity.current, this.opacity.target, this.opacity.lerp)
+    const amplitude = 0.1
+    const frequency = 1
 
-    this.program.uniforms.uAlpha.value = this.opacity.multiplier
+    this.mesh.rotation.z = -0.02 * Math.PI * Math.sin(this.index / frequency)
+    this.mesh.position.y = amplitude * Math.sin(this.index / frequency)
+
+    this.opacity.target = index === this.index ? 1 : 0.4
+    this.opacity.current = gsap.utils.interpolate(this.opacity.current, this.opacity.target, this.opacity.lerp)
+
+    this.program.uniforms.uAlpha.value = this.opacity.multiplier * this.opacity.current
   }
 
 }
